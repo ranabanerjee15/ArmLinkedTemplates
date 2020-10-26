@@ -82,12 +82,10 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "ADNSGName": { "Value": "[variables('ADNsgName')]" }
+                    "ADNSGName": { "Value": "[variables('ADNsgName')]" },
+                    "location": { "value": "[resourceGroup().location]" }
                 }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
-            ]
+            }
         },
         {
             "name": "Vnet",

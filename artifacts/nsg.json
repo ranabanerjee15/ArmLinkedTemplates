@@ -7,6 +7,12 @@
             "metadata": {
                 "description": "Name of the Network Security Group for AD subnet"
             }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location of NSG"
+            }
         }
     },
     "functions": [],
@@ -18,7 +24,7 @@
             "name": "[parameters('ADNSGName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2018-08-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "properties": {
                 "securityRules": [
                     {
