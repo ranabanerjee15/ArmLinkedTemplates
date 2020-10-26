@@ -2,6 +2,31 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "AdminUserName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Administrator for the New VM and Domain"
+            }
+        },
+        "AdminPasssword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The password for the Administrator account of the new VM and Domain"
+            }
+        },
+        "domainName": {
+            "type": "string",
+            "metadata": {
+                "description": "The FQDN of the AD Domain created "
+            }
+        },
+        "DomainControllerName": {
+            "type": "string",
+            "defaultValue": "DC01",
+            "metadata": {
+                "description": "Name of the Domain Controller"
+            }
+        },
         "VnetName": {
             "type": "string",
             "defaultValue": "Hub-Vnet",
@@ -15,12 +40,33 @@
             "metadata": {
                 "description": "Name of the ADSubnet"
             }
+        },
+        "DC-OperatingSystem": {
+            "type": "string",
+            "allowedValues": [
+                "2012-R2-Datacenter",
+                "2016-Datacenter",
+                "2019-Datacenter"
+            ],
+            "defaultValue": "2019-Datacenter",
+            "metadata": {
+                "description": "Operating System for the domain controller"
+            }
         }
 
     },
     "functions": [],
     "variables": {
-        "Template-Vnet": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/vnet.json"
+        "Template-Vnet": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/vnet.json",
+        "Template-AvailiblitySet": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/availiblityset.json",
+        "Template-Nics": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/nics.json",
+        "Template-ADNsg": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/nsg.json",
+        "Template-vmdc": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/vmdc.json",
+        "adAvailabilitySetName": "adAvailabiltySet",
+        "DcNic": "[concat(parameters('DomainControllerName'), '-Nic')]",
+        "DCNicIP": "192.168.10.4",
+        "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VnetName'), parameters('AdSubnetName'))]",
+        "ADNsgName": "[concat(parameters('DomainControllerName'),'-Nsg')]"
     },
     "resources": [
         {
@@ -38,7 +84,82 @@
                     "AdSubnetName": { "Value": "[parameters('AdSubnetName')]" }
                 }
             }
+        },
+        {
+            "name": "AvailiblitySet",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('Template-AvailiblitySet')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "AvailablitySetName": { "Value": "[variables('adAvailabilitySetName')]" }
+                }
+            }
+        },
+        {
+            "name": "Nics",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('Template-Nics')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "NetworkInterfaceName": { "Value": "[variables('DCNic')]" },
+                    "ipAddress": { "Value": "[variables('DCNicIP')]" },
+                    "adSubnetRef": { "Value": "[reference(variables('adSubnetRef'))]" }
+                }
+            },
+            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'VNet')]"
+        },
+        {
+            "name": "ADNSG",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('Template-ADNsg')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "ADNSGName": { "Value": "[variables('ADNsgName')]" }
+                }
+            },
+            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'VNet')]"
+        },
+        {
+            "name": "DomainController",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('Template-vmdc')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "DomainControllerName": { "Value": "[parameters('DomainControllerName')]" },
+                    "AdminUserName": { "Value": "[parameters('AdminUserName')]" },
+                    "AdminPassword": { "Value": "[parameters('AdminPasssword')]" },
+                    "OSVersion": { "Value": "[parameters('DC-OperatingSystem')]" },
+                    "AvaiblitySets": { "Value": "[resourceId('Microsoft.Resources/deployments', 'AvailiblitySet' variables('adAvailabilitySetName'))]" },
+                    "DCNic": { "Value": "[resourceId('Microsoft.Resources/deployments', 'Nics', variables('DcNic'))]" }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('VnetName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('DcNic'))]",
+                "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetName'))]"
+            ]
         }
+
     ],
     "outputs": {}
 }
