@@ -149,7 +149,7 @@
                     "AdminUserName": { "Value": "[parameters('AdminUserName')]" },
                     "AdminPassword": { "Value": "[parameters('AdminPasssword')]" },
                     "OSVersion": { "Value": "[parameters('DC-OperatingSystem')]" },
-                    "AvaiblitySets": { "Value": "[resourceId('Microsoft.Resources/deployments', 'AvailiblitySet' variables('adAvailabilitySetName'))]" },
+                    "AvaiblitySets": { "Value": "[resourceId('Microsoft.Resources/deployments', 'AvailiblitySet', variables('adAvailabilitySetName'))]" },
                     "DCNic": { "Value": "[resourceId('Microsoft.Resources/deployments', 'Nics', variables('DcNic'))]" }
                 }
             },
