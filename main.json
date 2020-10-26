@@ -67,8 +67,8 @@
         "adAvailabilitySetName": "adAvailabiltySet",
         "DcNic": "[concat(parameters('DomainControllerName'), '-Nic')]",
         "DCNicIP": "192.168.10.4",
-        "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VnetName'), parameters('AdSubnetName'))]",
-        "ADNsgName": "[concat(parameters('DomainControllerName'),'-Nsg')]"
+        "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets)', parameters('VnetName'), parameters('AdSubnetName'))]",
+        "ADNsgName": "[concat(parameters('AdSubnetName'),'-Nsg')]"
     },
     "resources": [
         {
@@ -105,8 +105,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
             ]
-        } /*,
-        
+        },
         {
             "name": "AvailiblitySet",
             "type": "Microsoft.Resources/deployments",
@@ -133,15 +132,25 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "NetworkInterfaceName": { "Value": "[variables('DCNic')]" },
-                    "ipAddress": { "Value": "[variables('DCNicIP')]" },
-                    "adSubnetRef": { "Value": "[reference(variables('adSubnetRef'))]" }
+                    "nicName": { "Value": "[variables('DCNic')]" },
+                    "ipConfigurations": [
+                        {
+                            "name": "ipconfig1",
+                            "properties": {
+                                "privateIPAllocationMethod": "Static",
+                                "privateIPAddress": "[variables('DCNicIP')]",
+                                "subnet": {
+                                    "id": "[variables('adSubnetRef')]"
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
             ]
-        },
+        } /*,
         {
             "name": "DomainController",
             "type": "Microsoft.Resources/deployments",
