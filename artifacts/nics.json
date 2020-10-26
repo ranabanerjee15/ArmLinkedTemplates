@@ -15,12 +15,25 @@
                 "description": "Location for all resources."
             }
         },
+        "DcnicIp": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "SubnetRef": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        }
+        /*
         "ipConfigurations": {
             "type": "array",
             "metadata": {
                 "description": "IpConfigurations"
             }
-        }
+        }*/
     },
 
     "variables": {},
@@ -31,7 +44,22 @@
             "location": "[parameters('location')]",
             "apiVersion": "2020-03-01",
             "properties": {
-                "ipConfigurations": "[parameters('ipConfigurations')]"
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "[parameters('DcnicIp')]",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[parameters('SubnetRef')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
             }
         }
 

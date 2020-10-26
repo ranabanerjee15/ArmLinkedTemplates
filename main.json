@@ -133,18 +133,8 @@
                 },
                 "parameters": {
                     "nicName": { "Value": "[variables('DCNic')]" },
-                    "ipConfigurations": [
-                        {
-                            "name": "ipconfig1",
-                            "properties": {
-                                "privateIPAllocationMethod": "Static",
-                                "privateIPAddress": "[variables('DCNicIP')]",
-                                "subnet": {
-                                    "id": "[variables('adSubnetRef')]"
-                                }
-                            }
-                        }
-                    ]
+                    "DcnicIp": { "Value": "[variables('DCNicIP')]" },
+                    "SubnetRef": { "Value": "[variables('adSubnetRef')]" }
                 }
             },
             "dependsOn": [
