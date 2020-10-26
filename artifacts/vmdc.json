@@ -52,7 +52,7 @@
                     "vmSize": "Standard_DS2_v2"
                 },
                 "availabilitySet": {
-                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AvaiblitySets'))]"
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('AvaiblitySets'))]"
                 },
                 "osProfile": {
                     "computerName": "[parameters('DomainControllerName')]",
@@ -92,7 +92,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('DCNic'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('DCNic'))]"
                         }
                     ]
                 }

@@ -140,7 +140,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
             ]
-        } /*,
+        },
         {
             "name": "DomainController",
             "type": "Microsoft.Resources/deployments",
@@ -156,22 +156,19 @@
                     "AdminUserName": { "Value": "[parameters('AdminUserName')]" },
                     "AdminPassword": { "Value": "[parameters('AdminPasssword')]" },
                     "OSVersion": { "Value": "[parameters('DC-OperatingSystem')]" },
-                    "AvaiblitySets": { "Value": "[resourceId('Microsoft.Resources/deployments', 'AvailiblitySet', variables('adAvailabilitySetName'))]" },
-                    "DCNic": { "Value": "[resourceId('Microsoft.Resources/deployments', 'Nics', variables('DcNic'))]" }
+                    "AvaiblitySets": { "Value": "[resourceId(resourceGroup(), 'Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]" },
+                    "DCNic": { "Value": "[resourceId(resourceGroup(),'Microsoft.Network/networkInterfaces',variables('DcNic'))]" }
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', parameters('VnetName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('DcNic'))]",
-                "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetName'))]"
+                "[resourceId('Microsoft.Resources/deployments', 'Nics' )]",
+                "[resourceId('Microsoft.Resources/deployments', 'AvailiblitySet')]",
+                "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]",
+                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
             ]
-        }*/
-
+        }
     ],
     "outputs": {
-        "Subnetref": {
-            "type": "string",
-            "value": "[variables('adSubnetRef')]"
-        }
+
     }
 }
