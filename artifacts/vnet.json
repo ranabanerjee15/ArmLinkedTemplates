@@ -17,7 +17,7 @@
     },
     "functions": [],
     "variables": {
-        "AD-NSG": "[concat ('NSG-', (parameters('AdSubnetName')))]"
+        "AD-NSG": "[concat(parameters('AdSubnetName'),'-NSG')]"
 
     },
     "resources": [
