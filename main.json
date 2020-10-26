@@ -4,6 +4,7 @@
     "parameters": {
         "AdminUserName": {
             "type": "string",
+            "defaultValue": "rbadmin",
             "metadata": {
                 "description": "The name of the Administrator for the New VM and Domain"
             }
@@ -16,6 +17,7 @@
         },
         "domainName": {
             "type": "string",
+            "defaultValue": "abcl.local",
             "metadata": {
                 "description": "The FQDN of the AD Domain created "
             }
@@ -36,6 +38,7 @@
         },
         "AdSubnetName": {
             "type": "string",
+            "defaultValue": "DomainServices",
             "metadata": {
                 "description": "Name of the ADSubnet"
             }
