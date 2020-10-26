@@ -116,7 +116,7 @@
                     "adSubnetRef": { "Value": "[reference(variables('adSubnetRef'))]" }
                 }
             },
-            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'VNet')]"
+            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
         },
         {
             "name": "ADNSG",
