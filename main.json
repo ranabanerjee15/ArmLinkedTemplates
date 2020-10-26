@@ -156,8 +156,8 @@
                     "AdminUserName": { "Value": "[parameters('AdminUserName')]" },
                     "AdminPassword": { "Value": "[parameters('AdminPasssword')]" },
                     "OSVersion": { "Value": "[parameters('DC-OperatingSystem')]" },
-                    "AvaiblitySets": { "Value": "[resourceId('Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]" },
-                    "DCNic": { "Value": "[resourceId('Microsoft.Network/networkInterfaces',variables('DcNic'))]" }
+                    "AvaiblitySets": { "Value": "[variables('adAvailabilitySetName')]" },
+                    "DCNic": { "Value": "[variables('DcNic')]" }
                 }
             },
             "dependsOn": [
