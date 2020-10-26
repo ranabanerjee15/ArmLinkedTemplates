@@ -67,7 +67,7 @@
         "adAvailabilitySetName": "adAvailabiltySet",
         "DcNic": "[concat(parameters('DomainControllerName'), '-Nic')]",
         "DCNicIP": "192.168.10.4",
-        "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets)', parameters('VnetName'), parameters('AdSubnetName'))]",
+        "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('VnetName'),parameters('AdSubnetName'))]",
         "ADNsgName": "[concat(parameters('AdSubnetName'),'-Nsg')]"
     },
     "resources": [
@@ -168,5 +168,10 @@
         }*/
 
     ],
-    "outputs": {}
+    "outputs": {
+        "Subnetref": {
+            "type": "string",
+            "value": "[variables('adSubnetRef')]"
+        }
+    }
 }
