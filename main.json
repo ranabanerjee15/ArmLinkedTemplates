@@ -82,7 +82,10 @@
                     "VnetName": { "Value": "[parameters('VnetName')]" },
                     "AdSubnetName": { "Value": "[parameters('AdSubnetName')]" }
                 }
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
+            ]
         },
         {
             "name": "AvailiblitySet",
