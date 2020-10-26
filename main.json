@@ -87,9 +87,10 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
+                //"[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
             ]
-        },
+        } /*,
+        
         {
             "name": "AvailiblitySet",
             "type": "Microsoft.Resources/deployments",
@@ -167,7 +168,7 @@
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('DcNic'))]",
                 "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetName'))]"
             ]
-        }
+        }*/
 
     ],
     "outputs": {}
