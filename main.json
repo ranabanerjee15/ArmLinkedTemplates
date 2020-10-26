@@ -36,7 +36,6 @@
         },
         "AdSubnetName": {
             "type": "string",
-            "defaultValue": "AD",
             "metadata": {
                 "description": "Name of the ADSubnet"
             }
@@ -116,7 +115,9 @@
                     "adSubnetRef": { "Value": "[reference(variables('adSubnetRef'))]" }
                 }
             },
-            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
+            ]
         },
         {
             "name": "ADNSG",
@@ -132,7 +133,9 @@
                     "ADNSGName": { "Value": "[variables('ADNsgName')]" }
                 }
             },
-            "dependsOn": "[resourceId('Microsoft.Resources/deployments', 'VNet')]"
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
+            ]
         },
         {
             "name": "DomainController",
