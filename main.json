@@ -72,6 +72,24 @@
     },
     "resources": [
         {
+            "name": "ADNSG",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('Template-ADNsg')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "ADNSGName": { "Value": "[variables('ADNsgName')]" }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
+            ]
+        },
+        {
             "name": "Vnet",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
@@ -87,7 +105,7 @@
                 }
             },
             "dependsOn": [
-                //"[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
+                "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]"
             ]
         } /*,
         
@@ -120,24 +138,6 @@
                     "NetworkInterfaceName": { "Value": "[variables('DCNic')]" },
                     "ipAddress": { "Value": "[variables('DCNicIP')]" },
                     "adSubnetRef": { "Value": "[reference(variables('adSubnetRef'))]" }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
-            ]
-        },
-        {
-            "name": "ADNSG",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('Template-ADNsg')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "ADNSGName": { "Value": "[variables('ADNsgName')]" }
                 }
             },
             "dependsOn": [

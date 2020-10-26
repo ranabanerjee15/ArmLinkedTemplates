@@ -39,12 +39,11 @@
                     {
                         "name": "[parameters('AdSubnetName')]",
                         "properties": {
-                            "addressPrefix": "192.168.10.0/24"
-                            /*
+                            "addressPrefix": "192.168.10.0/24",
                             "networkSecurityGroup": {
-                                // "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('AD-NSG'))]"
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('AD-NSG'))]"
                             }
-                            */
+
                         }
                     },
                     {
