@@ -12,7 +12,7 @@
     },
     "functions": [],
     "variables": {
-        "Template-Vnet": "/artifacts/Vnet.json"
+        "Template-Vnet": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/vnet.json"
     },
     "resources": [
         {
@@ -22,10 +22,11 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat('artifactsLocation', '//linkedTemplate.json', 'artifactsLocationSasToken')]",
+                    "uri": "[variables('Template-Vnet')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "VnetName": { "Value": "[parameters('VnetName')]" }
                 }
             }
         }
