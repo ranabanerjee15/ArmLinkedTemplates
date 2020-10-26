@@ -8,7 +8,15 @@
             "metadata": {
                 "description": "Name of the Vnet"
             }
+        },
+        "AdSubnetName": {
+            "type": "string",
+            "defaultValue": "AD",
+            "metadata": {
+                "description": "Name of the ADSubnet"
+            }
         }
+
     },
     "functions": [],
     "variables": {
@@ -26,7 +34,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "VnetName": { "Value": "[parameters('VnetName')]" }
+                    "VnetName": { "Value": "[parameters('VnetName')]" },
+                    "AdSubnetName": { "Value": "[parameters('AdSubnetName')]" }
                 }
             }
         }
