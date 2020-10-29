@@ -116,7 +116,7 @@
             },
             "resources": [
                 {
-                    "name": "[concat(parameters('DomainControllerName'),'/CreateADForest')]",
+                    "name": "forest",
                     "type": "extensions",
                     "apiVersion": "2019-07-01",
                     "location": "[resourceGroup().location]",
