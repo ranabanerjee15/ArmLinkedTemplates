@@ -1,4 +1,4 @@
-$rg = 'Arm-test111'
+$rg = 'Arm-test112'
 New-AzResourceGroup -Name $rg -Location 'Australiaeast' -Force
 
 #What if
