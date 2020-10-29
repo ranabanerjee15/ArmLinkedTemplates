@@ -161,7 +161,8 @@
                     "AvaiblitySets": { "Value": "[variables('adAvailabilitySetName')]" },
                     "DCNic": { "Value": "[variables('DcNic')]" },
                     "adModulesUrl": { "Value": "[variables('adModulesUrl')]" },
-                    "adPDCConfigurationFunction": { "Value": "[variables('adPDCConfigurationFunction')]" }
+                    "adPDCConfigurationFunction": { "Value": "[variables('adPDCConfigurationFunction')]" },
+                    "domainName": { "Value": "[parameters('domainName')]" }
                 }
             },
             "dependsOn": [

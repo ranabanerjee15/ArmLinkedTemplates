@@ -49,6 +49,12 @@
             "metadata": {
                 "description": "Function name of DSC"
             }
+        },
+        "domainName": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
         }
     },
     "variables": {},
@@ -58,7 +64,6 @@
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
-
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "Standard_DS2_v2"
@@ -108,7 +113,10 @@
                         }
                     ]
                 }
-            }
+            },
+            "resources": [
+
+            ]
         },
         {
             "name": "CreateADForest",
@@ -139,7 +147,7 @@
                 },
                 "protectedSettings": {
                     "items": {
-                        "AdminPassword": "[parameters('AdminPasssword')]"
+                        "AdminPassword": "[parameters('AdminPassword')]"
                     }
                 }
             }
