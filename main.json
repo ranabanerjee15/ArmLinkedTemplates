@@ -69,8 +69,8 @@
         "DCNicIP": "192.168.10.4",
         "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('VnetName'),parameters('AdSubnetName'))]",
         "ADNsgName": "[concat(parameters('AdSubnetName'),'-Nsg')]",
-        "adModulesUrl": "",
-        "adPDCConfigurationFunction": ""
+        "adModulesUrl": "https://raw.githubusercontent.com/ranabanerjee15/ArmLinkedTemplates/main/artifacts/DSC/CreateADPDC.zip",
+        "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC"
     },
     "resources": [
         {
@@ -159,7 +159,9 @@
                     "AdminPassword": { "Value": "[parameters('AdminPasssword')]" },
                     "OSVersion": { "Value": "[parameters('DC-OperatingSystem')]" },
                     "AvaiblitySets": { "Value": "[variables('adAvailabilitySetName')]" },
-                    "DCNic": { "Value": "[variables('DcNic')]" }
+                    "DCNic": { "Value": "[variables('DcNic')]" },
+                    "adModulesUrl": { "Value": "[variables('adModulesUrl')]" },
+                    "adPDCConfigurationFunction": { "Value": "[variables('adPDCConfigurationFunction')]" }
                 }
             },
             "dependsOn": [
@@ -168,41 +170,6 @@
                 "[resourceId('Microsoft.Resources/deployments', 'ADNSG')]",
                 "[resourceId('Microsoft.Resources/deployments', 'Vnet')]"
             ]
-        },
-        {
-            "name": "CreateADForest",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "Environment": "test"
-            },
-            "dependsOn": [
-
-                "[resourceId('Microsoft.Resources/deployments', 'DomainController')]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.Powershell",
-                "type": "DSC",
-                "typeHandlerVersion": "2.19",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "modulesUrl": "[variables('adModulesUrl')]",
-                    "configurationFunction": "[variables('adPDCConfigurationFunction')]",
-                    "Properties": {
-                        "DomainName": "[parameters('domainName')]",
-                        "AdminCreds": {
-                            "UserName": "[parameters('AdminUserName')]",
-                            "Password": "PrivateSettingsRef:AdminPassword"
-                        }
-                    }
-                },
-                "protectedSettings": {
-                    "items": {
-                        "AdminPassword": "[parameters('AdminPasssword')]"
-                    }
-                }
-            }
         }
     ],
     "outputs": {
