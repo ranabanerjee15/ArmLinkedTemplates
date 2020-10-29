@@ -117,14 +117,14 @@
             "resources": [
                 {
                     "name": "CreateADForest",
-                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "type": "extensions",
                     "apiVersion": "2019-07-01",
                     "location": "[resourceGroup().location]",
                     "tags": {
                         "Environment": "test"
                     },
                     "dependsOn": [
-                        "[concat(resourceId('Microsoft.Compute/virtualMachines', parameters('DomainControllerName')))]"
+                        "[parameters('DomainControllerName')]"
                     ],
                     "properties": {
                         "publisher": "Microsoft.Powershell",
