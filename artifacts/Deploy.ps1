@@ -10,4 +10,5 @@ Import-Module C:\Users\ranab\OneDrive\Documents\ArmLinkedTemplates\arm-template-
 
 
 # Test against best practices
+Import-Module .\arm-template-toolkit\arm-ttk\arm-ttk.psm1 -Verbose
 Test-AzTemplate -Templatepath .\main.json
